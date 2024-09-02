@@ -74,7 +74,7 @@ export const TransactionTypeContainer = styled(RadioGroup.Root)`
 `;
 
 interface VariantTypeButton {
-  variantBtn: "entrada" | "saida";
+  variantbtn: "entrada" | "saida";
 }
 
 export const TransactionTypeRadio = styled(RadioGroup.Item)<VariantTypeButton>`
@@ -91,16 +91,16 @@ export const TransactionTypeRadio = styled(RadioGroup.Item)<VariantTypeButton>`
 
   svg {
     color: ${(props) =>
-      props.variantBtn === "entrada"
+      props.variantbtn === "entrada"
         ? props.theme["green-300"]
         : props.theme["red-300"]};
   }
 
   &[data-state="checked"] {
     background: ${(props) =>
-      props.variantBtn === "entrada"
-        ? props.theme["green-500"]
-        : props.theme["red-500"]};
+      props.variantbtn === "entrada"
+        ? props.theme["green-700"]
+        : props.theme["red-700"]};
 
     color: ${(props) => props.theme.white};
 

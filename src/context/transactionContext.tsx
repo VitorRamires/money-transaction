@@ -1,5 +1,7 @@
+import axios from "axios";
 import { createContext, useState, useEffect } from "react";
 import { ReactNode } from "react";
+import { api } from "../axios/axios";
 
 export const TransactionContext = createContext({} as TransactionTypes);
 
@@ -13,10 +15,18 @@ interface TransactionInfo {
   createdAt: string;
 }
 
+interface CreateTransactionData {
+  description: string;
+  type: "entrada" | "saida";
+  price: number;
+  category: string;
+}
+
 // interface para o Contexto a outro componente
 interface TransactionTypes {
   transactions: TransactionInfo[];
   loadApiTransactions: (searchInput?: string) => Promise<void>;
+  createTransaction: (data: CreateTransactionData) => Promise<void>;
 }
 
 interface ChildrenProps {
@@ -27,16 +37,25 @@ export function TransactionContextProvider({ children }: ChildrenProps) {
   const [transactions, setTransactions] = useState<TransactionInfo[]>([]);
 
   async function loadApiTransactions(searchInput?: string) {
-    const url = new URL("http://localhost:3000/transactions");
+    //Utilizando axios
+    const response = await api.get("/transactions", {
+      params: {
+        q: searchInput,
+      },
+    });
+    setTransactions(response.data);
+  }
 
-    if (searchInput) {
-      url.searchParams.append("q", searchInput);
-    }
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    setTransactions(data);
+  async function createTransaction(data: CreateTransactionData) {
+    const response = await api.post("transactions", {
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      type: data.type,
+      createdAt: new Date(),
+    });
+    setTransactions((state) => [...state, response.data]);
+    console.log(transactions)
   }
 
   useEffect(() => {
@@ -44,7 +63,9 @@ export function TransactionContextProvider({ children }: ChildrenProps) {
   }, []);
 
   return (
-    <TransactionContext.Provider value={{ transactions, loadApiTransactions }}>
+    <TransactionContext.Provider
+      value={{ transactions, loadApiTransactions, createTransaction }}
+    >
       {children}
     </TransactionContext.Provider>
   );

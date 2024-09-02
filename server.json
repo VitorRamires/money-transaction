@@ -1,50 +1,20 @@
 {
-  "transactions" : [
-
+  "transactions": [
     {
-      "id": 1, 
       "description": "Desenvolvimento de site",
+      "price": 10000,
+      "category": "Trabalho",
       "type": "entrada",
-      "category": "Venda",
-      "price": 14000,
-      "createdAt": "2024-08-30T17:13:55.320Z"
+      "createdAt": "2024-09-02T22:04:09.267Z",
+      "id": 1
     },
-
     {
-      "id": 2,
-      "description": "hamburguer",
+      "description": "Reforma na casa",
+      "price": 3000,
+      "category": "Doméstica",
       "type": "saida",
-      "category": "Alimento",
-      "price": 50,
-      "createdAt": "2024-08-30T17:13:55.320Z"
-    },
-
-    {
-      "id": 3, 
-      "description": "Desenvolvimento de site 2",
-      "type": "entrada",
-      "category": "Venda",
-      "price": 14000,
-      "createdAt": "2024-08-30T17:13:55.320Z"
-    },
-
-    {
-      "id": 4, 
-      "description": "hamburguer 2",
-      "type": "saida",
-      "category": "Alimento",
-      "price": 300,
-      "createdAt": "2024-08-30T17:13:55.320Z"
-    },
-
-    {
-      "id": 5, 
-      "description": "Jogo do tigrinho",
-      "type": "saida",
-      "category": "Apostas",
-      "price": 30000,
-      "createdAt": "2024-08-30T17:13:55.320Z"
+      "createdAt": "2024-09-02T22:04:37.042Z",
+      "id": 2
     }
-
   ]
 }

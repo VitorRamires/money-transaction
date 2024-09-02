@@ -10,6 +10,9 @@ import { ArrowCircleUp, ArrowCircleDown, X } from "phosphor-react";
 import * as zod from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "../../axios/axios";
+import { useContext } from "react";
+import { TransactionContext } from "../../context/transactionContext";
 
 export function NewTransactionModal() {
   const newTransactionValidationSchema = zod.object({
@@ -21,18 +24,29 @@ export function NewTransactionModal() {
 
   type NewTransactionType = zod.infer<typeof newTransactionValidationSchema>;
 
-  const { register, handleSubmit, control } = useForm<NewTransactionType>({
-    resolver: zodResolver(newTransactionValidationSchema),
-    defaultValues: {
-      description: "",
-      price: 0,
-      category: "",
-      type: "entrada"
-    },
-  });
+  const { register, handleSubmit, control, reset } =
+    useForm<NewTransactionType>({
+      resolver: zodResolver(newTransactionValidationSchema),
+      defaultValues: {
+        description: "",
+        price: 0,
+        category: "",
+        type: "entrada",
+      },
+    });
 
-  function submitNewTransactionForm(data: NewTransactionType) {
-    console.log(data);
+  const { createTransaction } = useContext(TransactionContext);
+
+  async function createNewTransaction(data: NewTransactionType) {
+    const { description, price, category, type } = data;
+
+    await createTransaction({
+      description,
+      price,
+      category,
+      type,
+    });
+    reset();
   }
 
   return (
@@ -46,7 +60,7 @@ export function NewTransactionModal() {
           <X />
         </CloseButton>
 
-        <form action="" onSubmit={handleSubmit(submitNewTransactionForm)}>
+        <form action="" onSubmit={handleSubmit(createNewTransaction)}>
           <input {...register("description")} placeholder="descricao" />
           <input
             {...register("price", { valueAsNumber: true })}
@@ -59,9 +73,12 @@ export function NewTransactionModal() {
           <Controller
             control={control}
             name="type"
-            render={({field}) => {
+            render={({ field }) => {
               return (
-                <TransactionTypeContainer onValueChange={field.onChange} value={field.value}>
+                <TransactionTypeContainer
+                  onValueChange={field.onChange}
+                  value={field.value}
+                >
                   <TransactionTypeRadio value={"entrada"} variantbtn="entrada">
                     <ArrowCircleUp size={32} />
                     Entrada

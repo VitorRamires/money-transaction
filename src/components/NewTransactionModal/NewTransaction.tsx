@@ -10,7 +10,6 @@ import { ArrowCircleUp, ArrowCircleDown, X } from "phosphor-react";
 import * as zod from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "../../axios/axios";
 import { useContext } from "react";
 import { TransactionContext } from "../../context/transactionContext";
 
